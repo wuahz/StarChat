@@ -1,0 +1,48 @@
+// 利用grpc编译后生成的proc.exe生成proto的grpc的头文件和源文件
+/* 
+ E:\C++\GateServer\third_party\grpc\visualpro\third_party\protobuf\Debug\protoc.exe -I="." --grpc_out="." --plugin=protoc-gen-grpc="E:\C++\GateServer\third_party\grpc\visualpro\Debug\grpc_cpp_plugin.exe" "message.proto"
+*/
+// 上述命令会生成message.grpc.pb.h和message.grpc.pb.cc文件。
+
+// 接下来我们生成用于序列化和反序列化的pb文件
+/*
+ E:\C++\GateServer\third_party\grpc\visualpro\third_party\protobuf\Debug\protoc.exe --cpp_out=. "message.proto"
+*/
+// 上述命令会生成message.pb.h和message.pb.cc文件
+
+syntax = "proto3";
+
+package message;
+
+// 定义服务
+service VerifyService {
+  // 定义一个简单的RPC方法
+  rpc GetVerifyCode (GetVerifyCodeReq) returns (GetVerifyCodeRsp) {}
+}
+
+// 请求消息
+message GetVerifyCodeReq {
+  string email = 1;
+}
+
+// 响应消息
+message GetVerifyCodeRsp {
+  int32 error = 1;
+  string email = 2;
+  string code = 3;
+}
+
+service StatusService {
+    rpc GetChatServer (GetChatServerReq) returns (GetChatServerRsp) {}
+}
+
+message GetChatServerReq {
+  int32 uid = 1;
+}
+
+message GetChatServerRsp {
+  int32 error = 1;
+  string host = 2;
+  string port = 3;
+  string token = 4;
+}
